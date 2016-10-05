@@ -42,11 +42,20 @@ $r->route(['GET'], '/[:num]/[:num]', function($id, $id2) {
 $r->route(['GET'], '/[:num]/[:str]', function($id, $str) {
     echo 'Coming from /[:num]/[:str] ' . $id . $str;
 });
+$r->route(['GET'], '/test/[:num]', function($name) {
+    echo 'Coming from /test/[:num] ' . $name;
+});
 $r->route(['GET'], '/test/[:str]', function($name) {
     echo 'Coming from /test/[:str] ' . $name;
 });
+$r->route(['GET'], '/test/[:num]/test', function($name) {
+    echo 'Coming from /test/[:num]/test' . $name;
+});
 $r->route(['GET'], '/test/[:str]/test', function($name) {
-    echo 'initest' . $name;
+    echo 'Coming from /test/[:str]/test' . $name;
+});
+$r->route(['GET'], '/test/[:str]/[:num]', function($name, $id) {
+    echo 'Coming from /test/[:str]/[:num]' . $name . $id;
 });
 $r->route(['GET'], '/test/[:str]/test/[:num]', function($name, $id) {
     echo 'initest' . $name . '-' . $id;

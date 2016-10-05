@@ -135,18 +135,18 @@ class Route {
                         case '[:num]/': // number cases
                             // determine if the loop is reach the last loop.
                             if ($counter == count($path)) {
-                                $pathRegex .= '[\d+]?';
+                                $pathRegex .= '\d+?';
                             } else {
-                                $pathRegex .= '[\d+\/]+';
+                                $pathRegex .= '\d+\/+';
                             }
                             break;
 
                         case '[:str]/': // string cases
                             // determine if the loop is reach the last loop.
                             if ($counter == count($path)) {
-                                $pathRegex .= '[\w+]+?';
+                                $pathRegex .= '\w+?';
                             } else {
-                                $pathRegex .= '[\w+\/]+';
+                                $pathRegex .= '\w+\/+';
                             }
                             break;
                         
@@ -154,13 +154,13 @@ class Route {
                             if ($value == '/') // if value is root
                             {
                                 $value = substr_replace($value, '', -1, 1);
-                                $pathRegex .= '[' . $value . '\/]+';
+                                $pathRegex .= $value . '\/+';
                             } elseif ($counter == count($path)) { // last loop
                                 $value = substr_replace($value, '', -1, 1);
-                                $pathRegex .= '[' . $value . ']+?';
+                                $pathRegex .= $value . '+?';
                             } else { // if value is not root
                                 $value = substr_replace($value, '', -1, 1);
-                                $pathRegex .= '[' . $value . '\/]+';
+                                $pathRegex .= $value . '\/+';
                             }
                             break; // break to prevent duplication
                     }
