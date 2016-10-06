@@ -1,6 +1,9 @@
 <?php
 namespace Inirouter;
 
+use Inirouter\Exception\BadRouteException;
+use Inirouter\Exception\RouteNotFoundException;
+
 class Router
 {
     private $route; // instance of Route class
@@ -28,11 +31,27 @@ class Router
      */
     public function route($method, $path, $callback, $querystr = false)
     {
-        $this->route->setRoute($method, $path, $callback, $querystr);
+        try {
+            $this->route->setRoute($method, $path, $callback, $querystr);
+        } catch (BadRouteException $e) {
+            print "[BadRouteException: " . $e->getMessage() . "]";
+            print " in " . $e->getFile();
+            print " line : " . $e->getLine();
+            print "<br/>" . "\n";
+            exit();
+        }
     }
 
     public function run()
     {
-        return $this->route->run();
+        try {
+            return $this->route->run();
+        } catch (RouteNotFoundException $e) {
+            print "[RouteNotFoundException: " . $e->getMessage() . "]";
+            print " in " . $e->getFile();
+            print " line : " . $e->getLine();
+            print "<br/>" . "\n";
+            exit();
+        }
     }
 }

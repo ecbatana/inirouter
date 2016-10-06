@@ -21,12 +21,10 @@ $r = new Router(
      new Dispatcher
     )
 );
-$test = function()
-{
-    echo 'IniRouter';
-};
 
-$r->route(['GET'], '/', $test, true);
+$r->route(['GET'], '/', function() {
+    echo 'Coming from /';
+});
 $r->route(['GET'], '/test', function() {
     echo 'Coming from /test';
 });
@@ -57,7 +55,7 @@ $r->route(['GET'], '/test/[:str]/test', function($name) {
 $r->route(['GET'], '/test/[:str]/[:num]', function($name, $id) {
     echo 'Coming from /test/[:str]/[:num]' . $name . $id;
 });
-$r->route(['GET'], '/test/[:str]/test/[:num]', function($name, $id) {
-    echo 'initest' . $name . '-' . $id;
+$r->route(['GET'], '/test/[:str]/test/[:num]/[:str]/[:num]', function($name, $id, $satu, $dua) {
+    echo '/test/[:str]/test/[:num]/[:str]/[:num]' . $name . ' - ' . $id . ' - ' . $satu . '-' . $dua;
 });
 $r->run(); // run to route

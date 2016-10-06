@@ -1,6 +1,8 @@
 <?php
 namespace Inirouter;
 
+use Inirouter\Exception\BadRouteException;
+
 class RouteParser
 {
     private $config; // hold the routeconfig that passed from initiator
@@ -84,6 +86,8 @@ class RouteParser
             }
 
             return count($parsedMethod) > 0 ? $parsedMethod : false;
+        } else {
+            throw new BadRouteException('[' . $methods . "] route method must be an array", 1);
         }
     }
 
@@ -170,7 +174,8 @@ class RouteParser
                         break;
                     
                     default:
-                        
+                        $value = substr_replace($value, '', -1, 1);
+                        throw new BadRouteException($value . " parameter is not allowed", 1);
                         break;
                 }
             }

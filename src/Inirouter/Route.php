@@ -1,6 +1,8 @@
 <?php
 namespace Inirouter;
 
+use Inirouter\Exception\RouteNotFoundException;
+
 class Route {
     private $config; // instance of RouteConfig class
     private $collection; // instance of RouteCollection class
@@ -189,6 +191,8 @@ class Route {
         if (! empty($matchedRoute))
         {
             $this->dispatcher->dispatch($matchedRoute);
+        } else {
+            throw new RouteNotFoundException("Your Request is Not Found", 1);
         }
 
         // cleanup
