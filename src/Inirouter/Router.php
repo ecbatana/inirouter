@@ -52,6 +52,12 @@ class Router
             print " line : " . $e->getLine();
             print "<br/>" . "\n";
             exit();
+        } catch (BadRouteException $e) {
+            print "[BadRouteException: " . $e->getMessage() . "]";
+            print " in " . $e->getFile();
+            print " line : " . $e->getLine();
+            print "<br/>" . "\n";
+            exit();
         }
     }
 }

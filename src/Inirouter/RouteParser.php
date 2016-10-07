@@ -170,10 +170,6 @@ class RouteParser
                         $matchedParam[] = '/^(\[)?(:+\w+)?(\])(\/)/';
                         break;
 
-                    case '[:all]/':
-                        $matchedParam[] = '/^(\[)?(:+\w+)?(\])(\/)/';
-                        break;
-                    
                     default:
                         $value = substr_replace($value, '', -1, 1);
                         throw new BadRouteException($value . " parameter is not allowed", 1);

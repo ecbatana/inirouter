@@ -96,7 +96,6 @@ class Route {
     {
         // get and set config and route collection into variables
         $serverRequest = $this->config->getConfig()['RouteServerRequest'];
-        $requestMethod = $this->config->getConfig()['RouteRequestMethod'];
         $request = $this->config->getConfig()['RouteRequest'];
         $queryString = $this->config->getConfig()['RouteQueryString'];
         $collection = $this->collection->getCollection();

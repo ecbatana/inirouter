@@ -5,6 +5,7 @@ require('src/Autoload.php');
 $autoload = new Autoload;
 $autoload->run();
 
+// call required class
 use Inirouter\Dispatch;
 use Inirouter\Dispatcher;
 use Inirouter\Route;
@@ -13,6 +14,7 @@ use Inirouter\RouteCollection;
 use Inirouter\RouteParser;
 use Inirouter\Router;
 
+// setup
 $r = new Router(
      new Route(
      new RouteConfig,
@@ -22,6 +24,7 @@ $r = new Router(
     )
 );
 
+// testing
 $r->route(['GET'], '/', function() {
     echo 'Coming from /';
 });
