@@ -54,6 +54,7 @@ class RouteParser
     public function runParser($route)
     {
         if ( is_array($this->parseMethod($route['methods'])) &&
+             is_array($this->parsePath($route['path'])) &&
              $this->parseCallback($route['callback']) !== false
         ) {
             return true;

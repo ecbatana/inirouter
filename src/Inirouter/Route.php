@@ -25,10 +25,10 @@ class Route {
         Dispatcher $dispatcher
     ) {
         // Save Instance
-        $this->config = $config;
-        $this->collection = $collection;
-        $this->parser = $parser;
-        $this->dispatcher = $dispatcher;
+        $this->config = (object) $config;
+        $this->collection = (object) $collection;
+        $this->parser = (object) $parser;
+        $this->dispatcher = (object) $dispatcher;
 
         // Run the initiator
         $this->init();
