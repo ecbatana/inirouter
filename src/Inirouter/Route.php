@@ -101,7 +101,7 @@ class Route {
         $collection = $this->collection->getCollection();
 
         // set $matchedRoute variable to hold the matched route
-        $matchedRoute = [];
+        $matchedRoute = '';
 
         // Begin iterating collection
         foreach ($collection as $key => $value) {
@@ -110,7 +110,6 @@ class Route {
 
             // get the path / url pattern into $path variable
             $path = $value['path']['uri_pattern'];
-            $matches = '';
 
             // determine if uri pattern / path is root.
             if ($path == '/-')
@@ -118,11 +117,8 @@ class Route {
                 $path = '/'; // if is root, remove the strip with root only
                 // determine is path as same as request, return bool
                 if ($path === $request) {
-                    $matches = true;
                     $matchedRoute = $route;
                     break;
-                } else {
-                    $matches = false;
                 }
             } else {
                 // if its not root, then ..
@@ -173,8 +169,7 @@ class Route {
                 }
 
                 // remove the last one character
-
-                $pathRegex = rtrim($pathRegex, '/');
+                $pathRegex = rtrim($pathRegex, '?');
                 $pathRegex .= '$/'; // set the end line of regex
                 // begin matching if request is matched with the regular 
                 // expression, if matched, set the matched route ($route) 
