@@ -25,10 +25,10 @@ class Route {
         Dispatcher $dispatcher
     ) {
         // Save Instance
-        $this->config = (object) $config;
-        $this->collection = (object) $collection;
-        $this->parser = (object) $parser;
-        $this->dispatcher = (object) $dispatcher;
+        $this->config = $config;
+        $this->collection = $collection;
+        $this->parser = $parser;
+        $this->dispatcher = $dispatcher;
 
         // Run the initiator
         $this->init();
@@ -110,24 +110,26 @@ class Route {
 
             // get the path / url pattern into $path variable
             $path = $value['path']['uri_pattern'];
+            $matches = '';
 
             // determine if uri pattern / path is root.
             if ($path == '/-')
             {
                 $path = '/'; // if is root, remove the strip with root only
                 // determine is path as same as request, return bool
-                $matches = ($path == $request) ? true : false;
-
-                // if match, set matched route into variable $matchedRoute
-                if ($matches == true)
-                {
+                if ($path === $request) {
+                    $matches = true;
                     $matchedRoute = $route;
+                    break;
+                } else {
+                    $matches = false;
                 }
             } else {
                 // if its not root, then ..
                 $path = explode('-', $path); // explode first /w delimiter '-'
                 $pathRegex = '/^'; // set the first line of path regex
                 $counter = 1; // counter which used later. start at 1
+                $pathCount = count($path);
 
                 // begin iterate $path
                 foreach ($path as $key => $value) {
@@ -135,7 +137,7 @@ class Route {
                     switch ($value) {
                         case '[:num]/': // number cases
                             // determine if the loop is reach the last loop.
-                            if ($counter == count($path)) {
+                            if ($counter == $pathCount) {
                                 $pathRegex .= '\d+?';
                             } else {
                                 $pathRegex .= '\d+\/+';
@@ -144,7 +146,7 @@ class Route {
 
                         case '[:str]/': // string cases
                             // determine if the loop is reach the last loop.
-                            if ($counter == count($path)) {
+                            if ($counter == $pathCount) {
                                 $pathRegex .= '\w+?';
                             } else {
                                 $pathRegex .= '\w+\/+';
@@ -154,13 +156,13 @@ class Route {
                         default: // default case / not an parameter
                             if ($value == '/') // if value is root
                             {
-                                $value = substr_replace($value, '', -1, 1);
+                                $value = rtrim($value, '/');
                                 $pathRegex .= $value . '\/+';
                             } elseif ($counter == count($path)) { // last loop
-                                $value = substr_replace($value, '', -1, 1);
+                                $value = rtrim($value, '/');
                                 $pathRegex .= $value . '+?';
                             } else { // if value is not root
-                                $value = substr_replace($value, '', -1, 1);
+                                $value = rtrim($value, '/');
                                 $pathRegex .= $value . '\/+';
                             }
                             break; // break to prevent duplication
@@ -171,16 +173,16 @@ class Route {
                 }
 
                 // remove the last one character
-                $pathRegex = substr_replace($pathRegex, '', -1, 1);
-                $pathRegex .= '$/'; // set the end line of regex
 
+                $pathRegex = rtrim($pathRegex, '/');
+                $pathRegex .= '$/'; // set the end line of regex
                 // begin matching if request is matched with the regular 
                 // expression, if matched, set the matched route ($route) 
                 // into the variable named '$matchedRoute'.
                 $matches = preg_match($pathRegex, $request);
-                if ($matches == true && $matchedRoute == [] && empty($matchedRoute))
-                {
+                if ($matches == true) {
                     $matchedRoute = $route;
+                    break;
                 }
             }
         }

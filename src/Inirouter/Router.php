@@ -16,7 +16,7 @@ class Router
      */
     public function __construct(Route $route)
     {
-        $this->route = (object) $route;
+        $this->route = $route;
     }
 
     /**
@@ -34,10 +34,10 @@ class Router
         try {
             $this->route->setRoute($method, $path, $callback, $querystr);
         } catch (BadRouteException $e) {
-            print "[BadRouteException: " . $e->getMessage() . "]";
-            print " in " . $e->getFile();
-            print " line : " . $e->getLine();
-            print "<br/>" . "\n";
+            echo "[BadRouteException: " . $e->getMessage() . "]";
+            echo " in " . $e->getFile();
+            echo " line : " . $e->getLine();
+            echo "<br/>" . "\n";
             exit();
         }
     }
@@ -47,10 +47,10 @@ class Router
         try {
             return $this->route->run();
         } catch (RouteNotFoundException $e) {
-            print "[RouteNotFoundException: " . $e->getMessage() . "]";
-            print " in " . $e->getFile();
-            print " line : " . $e->getLine();
-            print "<br/>" . "\n";
+            echo "[RouteNotFoundException: " . $e->getMessage() . "]";
+            echo " in " . $e->getFile();
+            echo " line : " . $e->getLine();
+            echo "<br/>" . "\n";
             exit();
         } catch (BadRouteException $e) {
             print "[BadRouteException: " . $e->getMessage() . "]";

@@ -72,11 +72,16 @@ class Dispatcher
             } else {
                 call_user_func($callback);
             }
-        } elseif ($queryStringStatus == false && empty($queryString)) {
-            if (! empty($param)) {
-                call_user_func_array($callback, $param);
+        } else {
+            if ($queryStringStatus == false && empty($queryString)) {
+                if (! empty($param)) {
+                    call_user_func_array($callback, $param);
+                } else {
+                    call_user_func($callback);
+                }
             } else {
-                call_user_func($callback);
+                throw new BadRouteException("Query string is not allowed", 1);
+                exit();
             }
         }
     }

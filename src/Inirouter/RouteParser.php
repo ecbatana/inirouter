@@ -15,7 +15,7 @@ class RouteParser
      * @param  array  $config
      * @return void
      */
-    public function init(array $config)
+    public function init($config)
     {
         $this->config = $config;
     }
@@ -86,7 +86,11 @@ class RouteParser
                 }
             }
 
-            return count($parsedMethod) > 0 ? $parsedMethod : false;
+            if (count($parsedMethod) > 0) {
+                return $parsedMethod;
+            } else {
+                return false;
+            }
         } else {
             throw new BadRouteException('[' . $methods . "] route method must be an array", 1);
         }
@@ -137,7 +141,7 @@ class RouteParser
 
         // determine if uri_pattern is not root.
         if ($path['uri_pattern'] != '/-') {
-            $path['uri_pattern'] = substr_replace($path['uri_pattern'], '', -1, 1);
+            $path['uri_pattern'] = rtrim($path['uri_pattern'], '-');
         }
 
         // return path
