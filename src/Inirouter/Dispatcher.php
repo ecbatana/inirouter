@@ -73,7 +73,7 @@ class Dispatcher
                 call_user_func($callback);
             }
         } else {
-            if ($queryStringStatus == false && empty($queryString)) {
+            if (empty($queryString)) {
                 if (! empty($param)) {
                     call_user_func_array($callback, $param);
                 } else {
@@ -81,7 +81,6 @@ class Dispatcher
                 }
             } else {
                 throw new BadRouteException("Query string is not allowed", 1);
-                exit();
             }
         }
     }
@@ -95,7 +94,11 @@ class Dispatcher
      */
     private function queryStringStatus($querystr)
     {
-        return $querystr == true ? true : false;
+        if ($querystr) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -116,7 +119,6 @@ class Dispatcher
 
         if (empty($passedMethod)) {
             throw new BadRouteException("Your requested method is not allowed", 1);
-            exit();
         }
     }
 }

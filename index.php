@@ -61,4 +61,5 @@ $r->route(['GET'], '/test/[:str]/[:num]', function($name, $id) {
 $r->route(['GET'], '/test/[:str]/test/[:num]/[:str]/[:num]', function($name, $id, $satu, $dua) {
     echo '/test/[:str]/test/[:num]/[:str]/[:num]' . $name . ' - ' . $id . ' - ' . $satu . '-' . $dua;
 });
+
 $r->run(); // run to route

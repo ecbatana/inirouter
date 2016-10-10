@@ -160,7 +160,7 @@ class RouteParser
         $matchedParam = [];
 
         // determine if parameter is empty array
-        if (! empty($param) || $param !== [])
+        if (! empty($param))
         {
             // if matched .. iterate to check if parameter is allowed and
             // generate the regular expression.
