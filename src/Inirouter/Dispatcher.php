@@ -38,23 +38,39 @@ class Dispatcher
         // check if method is allowed
         $this->methodCheck($methods, $requestMethod);
 
-        // explode request with delimiter '/'
-        $request = explode('/', $request);
-        $explodedRequest = []; // set the exploded request container
-
         // begin iterate to check the request is root or not
-        foreach ($request as $key => $value) {
-            $explodedRequest[] = empty($value) ? $value . '/' : $value;
-        }
+        $request = $this->isRoot(explode('/', $request));
 
         // explode the uri pattern of the matched root with delimiter
         // '-' and set into $pattern variable.
         $pattern = explode('-', $matchedRoute['path']['uri_pattern']);
-        $param = []; // set the parameter container
 
+
+        // if matched route has an parameter, set it
+        $param = $this->getRouteParam($pattern, $request, $matchedRoute['path']['paramRegex']);
+
+        // begin to call the callback
+        $this->call($queryString, $queryStringStatus, $callback, $param);
+    }
+
+    /**
+     * Determine if request is root or not.
+     */
+    public function isRoot($request) {
+        foreach ($request as $key => $value) {
+            $request[] = empty($value) ? $value . '/' : $value;
+        }
+
+        return $request;
+    }
+
+    /**
+     * Determine if matched route has an parameter or not.
+     */
+    public function getRouteParam($pattern, $request, $paramRegex) {
         foreach ($pattern as $pK => $pV) {
-            foreach ($explodedRequest as $xK => $xV) {
-                foreach ($matchedRoute['path']['paramRegex'] as $rgx) {
+            foreach ($request as $xK => $xV) {
+                foreach ($paramRegex as $rgx) {
                     if (preg_match($rgx, $pV) && $pK == $xK) {
                         $param[] = $xV;
                         break;
@@ -63,8 +79,13 @@ class Dispatcher
             }
         }
 
-        // Determine if query string status in the matched route is enabled
-        // or not
+        return $param;
+    }
+
+    /**
+     * To call the callback
+     */
+    public function call($queryString, $queryStringStatus, $callback, $param) {
         if ($queryStringStatus)
         {
             if (! empty($param)) {
