@@ -29,14 +29,13 @@ class Dispatcher
     {
         $callback = $matchedRoute['callback'];
         $methods = $matchedRoute['methods'];
-        $requestMethod = $this->config['RouteRequestMethod'];
         $allowedMethods = $this->config['RouteAllowedMethods'];
         $request = $this->config['RouteServerRequest'];
         $queryString = $this->config['RouteQueryString'];
-        $queryStringStatus = $this->queryStringStatus($matchedRoute['querystr']['status']);
+        $queryStringStatus = $matchedRoute['querystr']['status'];
 
         // check if method is allowed
-        $this->methodCheck($methods, $requestMethod);
+        $this->methodCheck($methods, $allowedMethods);
 
         // begin iterate to check the request is root or not
         $request = $this->isRoot(explode('/', $request));
@@ -107,34 +106,20 @@ class Dispatcher
     }
 
     /**
-     * Determine which the matched route query string status is enabled or not
-     * return bool.
-     * 
-     * @param   $querystr
-     * @return
-     */
-    private function queryStringStatus($querystr)
-    {
-        if ($querystr) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Determine if method is allowed in action
      * 
      * @param  array $methods
-     * @param  string $requestMethod
+     * @param  string $allowedMethod
      */
-    private function methodCheck($methods, $requestMethod)
+    private function methodCheck($methods, $allowedMethod)
     {
         $passedMethod = [];
 
         foreach ($methods as $method) {
-            if ($method == $requestMethod) {
-                $passedMethod[] = $method;
+            foreach ($allowedMethod as $allowed) {
+                if ($method == $allowed) {
+                    $passedMethod[] = $method;
+                }
             }
         }
 
