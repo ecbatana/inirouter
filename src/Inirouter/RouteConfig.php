@@ -14,7 +14,6 @@ class RouteConfig
             'RouteServerRequest' => $_SERVER['REQUEST_URI'],
             'RouteRequest' => explode('?', $_SERVER['REQUEST_URI'])[0],
             'RouteQueryString' => empty($_SERVER['QUERY_STRING']) ? '' : $_SERVER['QUERY_STRING'],
-            'RouteRequestMethod' => $_SERVER['REQUEST_METHOD'],
             'RouteAllowedMethods' => ['GET', 'POST', 'PUT', 'DELETE', 'HEAD'],
         ];
     }

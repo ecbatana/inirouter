@@ -67,6 +67,8 @@ class Dispatcher
      * Determine if matched route has an parameter or not.
      */
     public function getRouteParam($pattern, $request, $paramRegex) {
+        $param = [];
+        
         foreach ($pattern as $pK => $pV) {
             foreach ($request as $xK => $xV) {
                 foreach ($paramRegex as $rgx) {
